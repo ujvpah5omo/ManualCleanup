@@ -16,6 +16,7 @@ local rawset = GLOBAL.rawset
 local pcall = GLOBAL.pcall
 
 local RPC_NAMESPACE = "ManualCleanup"
+local CONFIG_MOD_NAMES = { "workshop-3008351689", "ManualCleanup" }
 
 local function GetConfigValue(name, default)
     local get_config = GLOBAL.GetModConfigData
@@ -23,8 +24,14 @@ local function GetConfigValue(name, default)
         return default
     end
 
-    local value = get_config(name)
-    return value == nil and default or value
+    for _, mod_name in ipairs(CONFIG_MOD_NAMES) do
+        local ok, value = pcall(get_config, name, mod_name)
+        if ok and value ~= nil then
+            return value
+        end
+    end
+
+    return default
 end
 
 local function GetConfigBool(name, default)
