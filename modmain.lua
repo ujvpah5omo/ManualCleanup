@@ -16,7 +16,35 @@ local rawset = GLOBAL.rawset
 local pcall = GLOBAL.pcall
 
 local RPC_NAMESPACE = "ManualCleanup"
-local WHEEL_RANGE = 80
+
+local function GetConfigValue(name, default)
+    local get_config = GLOBAL.GetModConfigData
+    if get_config == nil then
+        return default
+    end
+
+    local value = get_config(name)
+    return value == nil and default or value
+end
+
+local function GetConfigBool(name, default)
+    return GetConfigValue(name, default) == true
+end
+
+local function GetConfigNumber(name, default, min_value, max_value)
+    local value = tonumber(GetConfigValue(name, default)) or default
+    if min_value ~= nil and value < min_value then
+        value = min_value
+    end
+    if max_value ~= nil and value > max_value then
+        value = max_value
+    end
+    return value
+end
+
+local ENABLE_MOUSE_UI = GetConfigBool("enable_mouse_ui", true)
+local ENABLE_CONTROLLER_UI = GetConfigBool("enable_controller_ui", true)
+local WHEEL_RANGE = GetConfigNumber("cleanup_range", 80, 20, 200)
 local WHEEL_SLOTS = 8
 local WHEEL_RADIUS = 210
 local WHEEL_LABEL_WIDTH = 132
@@ -1583,6 +1611,9 @@ AddComponentPostInit("playercontroller", function(self, inst)
         end
 
         if not self._manualcleanup_mode then
+            if not ENABLE_CONTROLLER_UI then
+                return false
+            end
             if not IsCancelControl(control) then
                 return false
             end
@@ -1659,6 +1690,7 @@ AddComponentPostInit("playercontroller", function(self, inst)
 
     local function ShouldOpenMouseCleanup(control, down)
         return down
+            and ENABLE_MOUSE_UI
             and not self._manualcleanup_mode
             and not TheInput:ControllerAttached()
             and control == GLOBAL.CONTROL_SECONDARY
