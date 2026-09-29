@@ -324,7 +324,6 @@ local function IsCleanupTarget(inst, player)
         or not inst:IsValid()
         or type(inst.prefab) ~= "string"
         or inst.Transform == nil
-        or inst.AnimState == nil
         or inst.inlimbo
         or blocked_prefabs[inst.prefab]
         or inst:HasTag("FX")
@@ -348,18 +347,13 @@ local function IsCleanupTarget(inst, player)
         return false
     end
 
-    local inventoryitem = inst.replica ~= nil and inst.replica.inventoryitem or nil
-    if inventoryitem ~= nil then
-        if inventoryitem.IsHeld ~= nil and inventoryitem:IsHeld() then
-            return false
-        end
-        return true
+    if inst.components ~= nil and inst.components.inventoryitem ~= nil then
+        return inst.components.inventoryitem.owner == nil
     end
 
-    return inst:HasTag("trap")
-        or inst:HasTag("smallcreature")
-        or inst:HasTag("rotten")
-        or inst.prefab == "spoiled_food"
+    local inventoryitem = inst.replica ~= nil and inst.replica.inventoryitem or nil
+    return inventoryitem ~= nil
+        and (inventoryitem.IsHeld == nil or not inventoryitem:IsHeld())
 end
 
 local function IsTargetNearPlayer(inst, player)
@@ -1706,6 +1700,7 @@ AddComponentPostInit("playercontroller", function(self, inst)
             and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT)
             and TheInput:IsKeyDown(GLOBAL.KEY_SHIFT)
             and not TheInput:GetHUDEntityUnderMouse()
+            and (TheInput.GetWorldEntityUnderMouse == nil or not TheInput:GetWorldEntityUnderMouse())
     end
 
     if TheInput.AddMouseWheelHandler ~= nil then

@@ -6,7 +6,7 @@ end
 
 name = T("Manual Cleanup", "手动清理")
 author = "鲸"
-version = "1.0.9"
+version = "1.0.10"
 forumthread = "https://steamcommunity.com/sharedfiles/filedetails/?id=3008351689"
 
 api_version = 10
@@ -42,7 +42,7 @@ server_filter_tags = {
 description = T([[
 Admin-only cleanup tool for Don't Starve Together servers.
 
-Admins can open a selection UI and remove one target, nearby targets of the same prefab, or all matching targets in the world. The last cleanup operation can be restored.
+Admins can open a selection UI and remove dropped inventory items, nearby dropped items of the same prefab, or all matching dropped items in the world. The last cleanup operation can be restored.
 
 Controller:
 - Hold B to enter cleanup mode.
@@ -55,19 +55,19 @@ Controller:
 - Hold B while in cleanup mode to restore the last cleanup.
 
 Keyboard and mouse:
-- Hold Alt + Shift, then right-click the ground or a target to open the cleanup panel.
+- Hold Alt + Shift, then right-click empty space to open the cleanup panel.
 - Click a target to select it, then click an action button.
 - Use the mouse wheel or page buttons to change pages.
 - Delete buttons require a second click to confirm.
 - Click Cancel to close the panel.
 
-Protected targets such as players, structures, containers, backpacks, resurrection stones, the Florid Postern, Abigail, and other protected objects are filtered out.
+Only dropped items that can be stored in an inventory are selectable. Held items, items inside containers, containers/backpacks themselves, players, structures, resurrection stones, the Florid Postern, Abigail, and other protected objects are filtered out.
 
 Restore tries to rebuild the previous cleanup batch by prefab and position, including basic state such as stack size and durability where possible. Complex state such as container contents is not guaranteed.
 ]], [[
 管理员专用的饥荒联机版服务器清理工具。
 
-管理员可以打开选择界面，删除单个目标、附近同类目标，或全世界同类目标。支持恢复上一次清理操作。
+管理员可以打开选择界面，删除掉在地上的可库存物品、附近同类掉落物，或全世界同类掉落物。支持恢复上一次清理操作。
 
 手柄操作：
 - 长按 B 进入清理模式。
@@ -80,13 +80,13 @@ Restore tries to rebuild the previous cleanup batch by prefab and position, incl
 - 清理模式内长按 B 恢复上次删除。
 
 键鼠操作：
-- 管理员按住 Alt + Shift，再右键地面或目标打开清理面板。
+- 管理员按住 Alt + Shift，再右键点击空白处打开清理面板。
 - 鼠标点选目标后点击按钮操作。
 - 鼠标滚轮或翻页按钮翻页。
 - 删除按钮需要二次确认。
 - 点击取消按钮关闭面板。
 
-清理对象会过滤玩家、建筑、容器、背包、复活台、绚丽之门、阿比盖尔等保护目标。
+只有掉在地上、可放入库存的物品会作为清理目标。身上、包里、箱子里的物品，以及容器/背包本体、玩家、建筑、复活台、绚丽之门、阿比盖尔等保护目标都会被过滤。
 
 恢复上次会按 prefab 和坐标重建上一批清理对象，并尽量恢复堆叠、耐久等基础状态。容器内容等复杂状态无法保证。
 ]])
@@ -101,8 +101,8 @@ configuration_options = {
         name = "enable_mouse_ui",
         label = T("Keyboard / Mouse Panel", "键鼠清理面板"),
         hover = T(
-            "Allow admins to open the cleanup panel with Alt + Shift + right-click.",
-            "允许管理员按 Alt + Shift + 右键打开清理面板。"
+            "Allow admins to open the cleanup panel with Alt + Shift + right-click on empty space.",
+            "允许管理员按 Alt + Shift + 右键点击空白处打开清理面板。"
         ),
         options = boolean_options,
         default = true,
