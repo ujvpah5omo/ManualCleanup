@@ -364,6 +364,34 @@ local function IsTargetNearPlayer(inst, player)
         and player:GetDistanceSqToInst(inst) <= WHEEL_RANGE * WHEEL_RANGE
 end
 
+local function IsTargetOnScreen(inst, viewer)
+    if inst == nil or inst.Transform == nil then
+        return false
+    end
+
+    local can_see = GetGlobal("CanEntitySeeTarget")
+    if can_see ~= nil and viewer ~= nil and not can_see(viewer, inst) then
+        return false
+    end
+
+    local world_x, world_y, world_z
+    if inst.AnimState ~= nil then
+        world_x, world_y, world_z = inst.AnimState:GetSymbolPosition("", 0, 0, 0)
+    end
+    if world_x == nil then
+        world_x, world_y, world_z = inst.Transform:GetWorldPosition()
+    end
+
+    local screen_x, screen_y = TheSim:GetScreenPos(world_x, world_y, world_z)
+    local screen_width, screen_height = TheSim:GetScreenSize()
+    return screen_x ~= nil
+        and screen_y ~= nil
+        and screen_x >= 0
+        and screen_x <= screen_width
+        and screen_y >= 0
+        and screen_y <= screen_height
+end
+
 local function GetEntityFromSingleRequest(player, guid, prefab, x, y, z)
     guid = tonumber(guid) or guid
     local inst = guid ~= nil and GLOBAL.Ents[guid] or nil
@@ -581,7 +609,7 @@ local function GetCleanupTargets(player)
     local keys = {}
 
     for _, inst in ipairs(ents) do
-        if IsCleanupTarget(inst, player) then
+        if IsCleanupTarget(inst, player) and IsTargetOnScreen(inst, player) then
             local name = GetEntityDisplayName(inst)
             local key = inst.prefab .. "\0" .. name
             local stackable = inst.replica ~= nil and inst.replica.stackable or nil

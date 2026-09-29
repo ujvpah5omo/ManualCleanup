@@ -6,7 +6,7 @@ end
 
 name = T("Manual Cleanup", "手动清理")
 author = "鲸"
-version = "1.0.10"
+version = "1.0.11"
 forumthread = "https://steamcommunity.com/sharedfiles/filedetails/?id=3008351689"
 
 api_version = 10
@@ -61,7 +61,7 @@ Keyboard and mouse:
 - Delete buttons require a second click to confirm.
 - Click Cancel to close the panel.
 
-Only dropped items that can be stored in an inventory are selectable. Held items, items inside containers, containers/backpacks themselves, players, structures, resurrection stones, the Florid Postern, Abigail, and other protected objects are filtered out.
+Only visible dropped items that can be stored in an inventory are selectable. Held items, items inside containers, containers/backpacks themselves, players, structures, resurrection stones, the Florid Postern, Abigail, and other protected objects are filtered out.
 
 Restore tries to rebuild the previous cleanup batch by prefab and position, including basic state such as stack size and durability where possible. Complex state such as container contents is not guaranteed.
 ]], [[
@@ -86,7 +86,7 @@ Restore tries to rebuild the previous cleanup batch by prefab and position, incl
 - 删除按钮需要二次确认。
 - 点击取消按钮关闭面板。
 
-只有掉在地上、可放入库存的物品会作为清理目标。身上、包里、箱子里的物品，以及容器/背包本体、玩家、建筑、复活台、绚丽之门、阿比盖尔等保护目标都会被过滤。
+只有可视范围内、掉在地上、可放入库存的物品会作为清理目标。身上、包里、箱子里的物品，以及容器/背包本体、玩家、建筑、复活台、绚丽之门、阿比盖尔等保护目标都会被过滤。
 
 恢复上次会按 prefab 和坐标重建上一批清理对象，并尽量恢复堆叠、耐久等基础状态。容器内容等复杂状态无法保证。
 ]])
@@ -121,8 +121,8 @@ configuration_options = {
         name = "cleanup_range",
         label = T("Scan Range", "扫描范围"),
         hover = T(
-            "How far the cleanup UI searches for selectable targets. Nearby same-prefab deletion uses the same range.",
-            "清理界面搜索可选目标的范围，附近同类删除也使用同一范围。"
+            "Maximum search radius for selectable targets. The panel only shows targets that are also visible on screen. Nearby same-prefab deletion uses this range.",
+            "可选目标的最大搜索半径。面板只显示当前屏幕可见的目标；附近同类删除也使用同一范围。"
         ),
         options = {
             { description = T("40 - Small", "40 - 小"), data = 40 },
