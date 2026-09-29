@@ -6,7 +6,7 @@ end
 
 name = T("Manual Cleanup", "手动清理")
 author = "鲸"
-version = "1.0.12"
+version = "1.0.13"
 forumthread = "https://steamcommunity.com/sharedfiles/filedetails/?id=3008351689"
 
 api_version = 10

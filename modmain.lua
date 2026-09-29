@@ -1626,7 +1626,8 @@ AddComponentPostInit("playercontroller", function(self, inst)
                 and TheInput:IsKeyDown(GLOBAL.KEY_SHIFT)
                 and not TheInput:GetHUDEntityUnderMouse()
                 and (TheInput.GetWorldEntityUnderMouse == nil or not TheInput:GetWorldEntityUnderMouse()) then
-                ExitCleanupMode()
+                SwallowControls(GLOBAL.CONTROL_SECONDARY)
+                ExitCleanupMode(true)
                 return true
             elseif control == GLOBAL.CONTROL_CANCEL or control == GLOBAL.CONTROL_PAUSE then
                 return false
@@ -1755,6 +1756,7 @@ AddComponentPostInit("playercontroller", function(self, inst)
             return true
         end
         if ShouldOpenMouseCleanup(control, down) then
+            SwallowControls(GLOBAL.CONTROL_SECONDARY)
             EnterCleanupMode(true)
             return true
         end
