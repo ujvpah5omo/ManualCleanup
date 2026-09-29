@@ -155,11 +155,6 @@ local function GetListKey(inst)
     return GetEntityDisplayName(inst) .. "  " .. tostring(inst ~= nil and inst.prefab or "unknown")
 end
 
-local function AddRemovedCount(list, inst)
-    local key = GetListKey(inst)
-    list[key] = (list[key] or 0) + 1
-end
-
 local function GetUndoKey(player)
     return tostring(player ~= nil and player.userid or "console")
 end
@@ -184,6 +179,11 @@ local function GetStackSize(inst)
     end
 
     return 1
+end
+
+local function AddRemovedCount(list, inst)
+    local key = GetListKey(inst)
+    list[key] = (list[key] or 0) + GetStackSize(inst)
 end
 
 local function AddUndoEntry(batch, inst)
@@ -439,7 +439,7 @@ local function RemoveSingleServer(player, guid, prefab, x, y, z)
     end
 
     local list = {}
-    local undo = BeginUndoBatch(player, "删除一个")
+    local undo = BeginUndoBatch(player, "删除一叠")
     RemoveWithUndo(list, undo, inst)
     SaveUndoBatch(player, undo)
     AnnounceRemovedList(list)
@@ -1071,8 +1071,8 @@ AddComponentPostInit("playercontroller", function(self, inst)
                     ChangeCleanupPage(1)
                 end
             end),
-            single = AddMouseButton("删除一个", function()
-                ConfirmMouseDelete("single", "删除一个", DeleteSingleSelection)
+            single = AddMouseButton("删除一叠", function()
+                ConfirmMouseDelete("single", "删除一叠", DeleteSingleSelection)
             end),
             nearby = AddMouseButton("附近一类", function()
                 ConfirmMouseDelete("nearby", "附近一类", DeleteGroupSelection)
@@ -1125,7 +1125,7 @@ AddComponentPostInit("playercontroller", function(self, inst)
         buttons.restore:SetPosition(center_x + MOUSE_BUTTON_ROW_GAP, row2_y)
         buttons.cancel:SetPosition(center_x + MOUSE_BUTTON_ROW_GAP * 2, row2_y)
 
-        SetButtonText(buttons.single, "single", "删除一个")
+        SetButtonText(buttons.single, "single", "删除一叠")
         SetButtonText(buttons.nearby, "nearby", "附近一类")
         SetButtonText(buttons.global, "global", "全世界一类")
         SetButtonText(buttons.restore, "restore", "恢复上次")
@@ -1227,7 +1227,7 @@ AddComponentPostInit("playercontroller", function(self, inst)
             local previous_page_control = TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_ROTATE_LEFT)
             local next_page_control = TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_ROTATE_RIGHT)
             control_hint = string.format(
-                "方向选择   %s 删除一个   %s 附近一类   %s 全世界一类   %s 短按退出/长按恢复",
+                "方向选择   %s 删除一叠   %s 附近一类   %s 全世界一类   %s 短按退出/长按恢复",
                 single_control,
                 group_control,
                 global_control,

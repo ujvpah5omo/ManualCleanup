@@ -6,7 +6,7 @@ end
 
 name = T("Manual Cleanup", "手动清理")
 author = "鲸"
-version = "1.0.13"
+version = "1.0.15"
 forumthread = "https://steamcommunity.com/sharedfiles/filedetails/?id=3008351689"
 
 api_version = 10
@@ -48,7 +48,7 @@ Controller:
 - Hold B to enter cleanup mode.
 - Use the D-pad or stick to select a target.
 - Rotate left/right to change pages.
-- Y removes one target.
+- Y removes one stack/entity.
 - X removes nearby targets of the same prefab.
 - A removes all matching targets in the world.
 - Tap B to exit cleanup mode.
@@ -73,7 +73,7 @@ Restore tries to rebuild the previous cleanup batch by prefab and position, incl
 - 长按 B 进入清理模式。
 - 方向键 / 摇杆选择目标。
 - 左右旋转键翻页。
-- Y 删除一个目标。
+- Y 删除一叠/一个实体。
 - X 删除附近同类目标。
 - A 删除全世界同类目标。
 - 短按 B 退出清理模式。
