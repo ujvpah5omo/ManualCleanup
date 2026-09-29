@@ -6,7 +6,7 @@ end
 
 name = T("Manual Cleanup", "手动清理")
 author = "鲸"
-version = "1.0.11"
+version = "1.0.12"
 forumthread = "https://steamcommunity.com/sharedfiles/filedetails/?id=3008351689"
 
 api_version = 10
@@ -55,11 +55,11 @@ Controller:
 - Hold B while in cleanup mode to restore the last cleanup.
 
 Keyboard and mouse:
-- Hold Alt + Shift, then right-click empty space to open the cleanup panel.
+- Hold Alt + Shift, then right-click empty space to open or close the cleanup panel.
 - Click a target to select it, then click an action button.
 - Use the mouse wheel or page buttons to change pages.
 - Delete buttons require a second click to confirm.
-- Click Cancel to close the panel.
+- Click Cancel or use the same shortcut again to close the panel.
 
 Only visible dropped items that can be stored in an inventory are selectable. Held items, items inside containers, containers/backpacks themselves, players, structures, resurrection stones, the Florid Postern, Abigail, and other protected objects are filtered out.
 
@@ -80,11 +80,11 @@ Restore tries to rebuild the previous cleanup batch by prefab and position, incl
 - 清理模式内长按 B 恢复上次删除。
 
 键鼠操作：
-- 管理员按住 Alt + Shift，再右键点击空白处打开清理面板。
+- 管理员按住 Alt + Shift，再右键点击空白处打开或关闭清理面板。
 - 鼠标点选目标后点击按钮操作。
 - 鼠标滚轮或翻页按钮翻页。
 - 删除按钮需要二次确认。
-- 点击取消按钮关闭面板。
+- 点击取消按钮，或再次使用同一快捷键关闭面板。
 
 只有可视范围内、掉在地上、可放入库存的物品会作为清理目标。身上、包里、箱子里的物品，以及容器/背包本体、玩家、建筑、复活台、绚丽之门、阿比盖尔等保护目标都会被过滤。
 
@@ -101,8 +101,8 @@ configuration_options = {
         name = "enable_mouse_ui",
         label = T("Keyboard / Mouse Panel", "键鼠清理面板"),
         hover = T(
-            "Allow admins to open the cleanup panel with Alt + Shift + right-click on empty space.",
-            "允许管理员按 Alt + Shift + 右键点击空白处打开清理面板。"
+            "Allow admins to open or close the cleanup panel with Alt + Shift + right-click on empty space.",
+            "允许管理员按 Alt + Shift + 右键点击空白处打开或关闭清理面板。"
         ),
         options = boolean_options,
         default = true,

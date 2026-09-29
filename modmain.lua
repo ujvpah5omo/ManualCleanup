@@ -1217,7 +1217,7 @@ AddComponentPostInit("playercontroller", function(self, inst)
         local control_hint
         local page_hint = ""
         if keyboard_mode then
-            control_hint = "鼠标点选目标，点击按钮执行操作，点取消关闭"
+            control_hint = "鼠标点选目标，点击按钮执行操作，点取消或同快捷键关闭"
             page_hint = page_count > 1 and "   滚轮/按钮翻页" or ""
         else
             local single_control = TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_INSPECT)
@@ -1619,7 +1619,16 @@ AddComponentPostInit("playercontroller", function(self, inst)
         end
 
         if self._manualcleanup_mode and self._manualcleanup_keyboard_mode == true then
-            if control == GLOBAL.CONTROL_CANCEL or control == GLOBAL.CONTROL_PAUSE then
+            if down
+                and ENABLE_MOUSE_UI
+                and control == GLOBAL.CONTROL_SECONDARY
+                and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT)
+                and TheInput:IsKeyDown(GLOBAL.KEY_SHIFT)
+                and not TheInput:GetHUDEntityUnderMouse()
+                and (TheInput.GetWorldEntityUnderMouse == nil or not TheInput:GetWorldEntityUnderMouse()) then
+                ExitCleanupMode()
+                return true
+            elseif control == GLOBAL.CONTROL_CANCEL or control == GLOBAL.CONTROL_PAUSE then
                 return false
             elseif control == GLOBAL.CONTROL_ZOOM_IN or control == GLOBAL.CONTROL_ZOOM_OUT then
                 if down and ChangeCleanupPage ~= nil and ShouldHandleControlPress(control) then
